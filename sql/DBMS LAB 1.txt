@@ -1,0 +1,340 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Thu Jan 26 13:17:12 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+SQL> desc new;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(3)
+ NAME                                               VARCHAR2(20)
+ AGE                                                NUMBER(2)
+ SAL                                                NUMBER(10)
+ EMAIL                                              VARCHAR2(20)
+ LOC                                                VARCHAR2(5)
+ PHONE                                              NUMBER(12)
+ GENDER                                             VARCHAR2(10)
+
+SQL> select * from new;
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        12 Rome                         23      30000 rm@gmail.com         aus
+    987654 M
+
+        14 frost                        35      45000 ft@gmail.com         nz
+    763455 M
+
+         9 ritu                         43      65000 rt@gmail.com         ind
+    213567 F
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+         4 andrew                       22      25000 ad@gmail.com         eng
+    778943 M
+
+        16 sagnik                       29      18000 sg@gmail.com         ind
+    324567 M
+
+         2 robert                       37      36000 rb@gmail.com         usa
+    123897 M
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        14 patrick                      45      55000 pt@gmail.com         eng
+    371189 M
+
+         7 seren                        53      72000 dk@gmail.com         eng
+           F
+
+        14 jimmy                        32      39000 jm@gmail.com         aus
+    450091 M
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        11 mathews                      40      27000 mt@gmail.com         nz
+    349002 M
+
+
+10 rows selected.
+
+SQL> select NAME,EMAIL from new;
+
+NAME                 EMAIL
+-------------------- --------------------
+Rome                 rm@gmail.com
+frost                ft@gmail.com
+ritu                 rt@gmail.com
+andrew               ad@gmail.com
+sagnik               sg@gmail.com
+robert               rb@gmail.com
+patrick              pt@gmail.com
+seren                dk@gmail.com
+jimmy                jm@gmail.com
+mathews              mt@gmail.com
+
+10 rows selected.
+
+SQL> select PHONE from new;
+
+     PHONE
+----------
+    987654
+    763455
+    213567
+    778943
+    324567
+    123897
+    371189
+
+    450091
+    349002
+
+10 rows selected.
+
+SQL> SELECT DISTINCT ID from new;
+
+        ID
+----------
+        11
+        14
+         2
+         4
+         7
+        12
+         9
+        16
+
+8 rows selected.
+
+SQL> SELECT  ID,NAME,SAL,SAL+500 from new;
+
+        ID NAME                        SAL    SAL+500
+---------- -------------------- ---------- ----------
+        12 Rome                      30000      30500
+        14 frost                     45000      45500
+         9 ritu                      65000      65500
+         4 andrew                    25000      25500
+        16 sagnik                    18000      18500
+         2 robert                    36000      36500
+        14 patrick                   55000      55500
+         7 seren                     72000      72500
+        14 jimmy                     39000      39500
+        11 mathews                   27000      27500
+
+10 rows selected.
+
+SQL> select AGE||''||PHONE from new;
+
+AGE||''||PHONE
+--------------------------------------------------------------------------------
+23987654
+35763455
+43213567
+22778943
+29324567
+37123897
+45371189
+53
+32450091
+40349002
+
+10 rows selected.
+
+SQL> select AGE,EMAIL,LOC from new where GENDER='M';
+
+       AGE EMAIL                LOC
+---------- -------------------- -----
+        23 rm@gmail.com         aus
+        35 ft@gmail.com         nz
+        22 ad@gmail.com         eng
+        29 sg@gmail.com         ind
+        37 rb@gmail.com         usa
+        45 pt@gmail.com         eng
+        32 jm@gmail.com         aus
+        40 mt@gmail.com         nz
+
+8 rows selected.
+
+SQL> select ID from new where LOC='ind';
+
+        ID
+----------
+         9
+        16
+
+SQL> select NAME from new where AGE>40;
+
+NAME
+--------------------
+ritu
+patrick
+seren
+
+SQL> select PHONE,AGE from new where SAL BETWEEN 45000 AND 60000;
+
+     PHONE        AGE
+---------- ----------
+    763455         35
+    371189         45
+
+
+
+SQL> select AGE from new where SAL<50000;
+
+       AGE
+----------
+        23
+        35
+        22
+        29
+        37
+        32
+        40
+
+7 rows selected.
+
+SQL> select * from new where LOC='ind' OR LOC='eng';
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+         9 ritu                         43      65000 rt@gmail.com         ind
+    213567 F
+
+         4 andrew                       22      25000 ad@gmail.com         eng
+    778943 M
+
+        16 sagnik                       29      18000 sg@gmail.com         ind
+    324567 M
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        14 patrick                      45      55000 pt@gmail.com         eng
+    371189 M
+
+         7 seren                        53      72000 dk@gmail.com         eng
+           F
+
+
+SQL> select * from new where PHONE is NULL;
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+         7 seren                        53      72000 dk@gmail.com         eng
+           F
+
+
+
+
+SQL> select NAME from new where NOT(LOC='ind');
+
+NAME
+--------------------
+Rome
+frost
+andrew
+robert
+patrick
+seren
+jimmy
+mathews
+
+8 rows selected.
+
+SQL> select EMAIL from new where NAME LIKE 'S%';
+
+no rows selected
+
+SQL> select EMAIL from new where NAME LIKE 's%';
+
+EMAIL
+--------------------
+sg@gmail.com
+dk@gmail.com
+
+SQL> select LOC from new where NAME LIKE '%i%';
+
+LOC
+-----
+ind
+ind
+eng
+aus
+
+
+
+SQL> select * from new ORDER BY ID,AGE DESC;
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+         2 robert                       37      36000 rb@gmail.com         usa
+    123897 M
+
+         4 andrew                       22      25000 ad@gmail.com         eng
+    778943 M
+
+         7 seren                        53      72000 dk@gmail.com         eng
+           F
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+         9 ritu                         43      65000 rt@gmail.com         ind
+    213567 F
+
+        11 mathews                      40      27000 mt@gmail.com         nz
+    349002 M
+
+        12 Rome                         23      30000 rm@gmail.com         aus
+    987654 M
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        14 patrick                      45      55000 pt@gmail.com         eng
+    371189 M
+
+        14 frost                        35      45000 ft@gmail.com         nz
+    763455 M
+
+        14 jimmy                        32      39000 jm@gmail.com         aus
+    450091 M
+
+
+        ID NAME                        AGE        SAL EMAIL                LOC
+---------- -------------------- ---------- ---------- -------------------- -----
+     PHONE GENDER
+---------- ----------
+        16 sagnik                       29      18000 sg@gmail.com         ind
+    324567 M
+
+
+10 rows selected.
+
+SQL>
