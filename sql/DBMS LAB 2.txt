@@ -1,0 +1,642 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Feb 7 23:08:41 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+SQL> select * from emp;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        14 raj               27       4000 ind      23-JAN-97 m
+        19 mark              37       9000 aus      18-MAR-99 m
+        16 nick              29       7600 eng      27-JUN-99 u
+        11 sameer            39       5500 ind      11-NOV-86 m
+        23 william           25       9700 nz       19-JAN-88 u
+        23 ahmed             30       1500 pak                m
+        23 steve             36       7700 aus      05-MAY-02 m
+        26 kartik            25       4800 ind
+        18 collin            22       2000 eng      16-NOV-95 m
+        27 priti             31       2600 ind      13-APR-97 u
+        18 lance             42       8900 sa       05-DEC-95 m
+
+11 rows selected.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(5)
+ NAME                                               VARCHAR2(9)
+ AGE                                                NUMBER(5)
+ SAL                                                NUMBER(7)
+ LOC                                                VARCHAR2(8)
+ DOJ                                                DATE
+ STATUS                                             VARCHAR2(1)
+
+SQL> select * from emp where LOC!='ind';
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        19 mark              37       9000 aus      18-MAR-99 m
+        16 nick              29       7600 eng      27-JUN-99 u
+        23 william           25       9700 nz       19-JAN-88 u
+        23 ahmed             30       1500 pak                m
+        23 steve             36       7700 aus      05-MAY-02 m
+        18 collin            22       2000 eng      16-NOV-95 m
+        18 lance             42       8900 sa       05-DEC-95 m
+
+7 rows selected.
+
+SQL> select * from emp where AGE>30 and AGE<40;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        19 mark              37       9000 aus      18-MAR-99 m
+        11 sameer            39       5500 ind      11-NOV-86 m
+        23 steve             36       7700 aus      05-MAY-02 m
+        27 priti             31       2600 ind      13-APR-97 u
+
+SQL> select SAL-500 from emp where AGE<32;
+
+   SAL-500
+----------
+      3500
+      7100
+      9200
+      1000
+      4300
+      1500
+      2100
+
+7 rows selected.
+
+SQL> select ID from emp;
+
+        ID
+----------
+        14
+        19
+        16
+        11
+        23
+        23
+        23
+        26
+        18
+        27
+        18
+
+11 rows selected.
+
+SQL> select AGE||''||LOC from emp;
+
+AGE||''||LOC
+------------------------------------------------
+27ind
+37aus
+29eng
+39ind
+25nz
+30pak
+36aus
+25ind
+22eng
+31ind
+42sa
+
+11 rows selected.
+
+SQL> select * from emp order by ID desc,SAL;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        27 priti             31       2600 ind      13-APR-97 u
+        26 kartik            25       4800 ind
+        23 ahmed             30       1500 pak                m
+        23 steve             36       7700 aus      05-MAY-02 m
+        23 william           25       9700 nz       19-JAN-88 u
+        19 mark              37       9000 aus      18-MAR-99 m
+        18 collin            22       2000 eng      16-NOV-95 m
+        18 lance             42       8900 sa       05-DEC-95 m
+        16 nick              29       7600 eng      27-JUN-99 u
+        14 raj               27       4000 ind      23-JAN-97 m
+        11 sameer            39       5500 ind      11-NOV-86 m
+
+11 rows selected.
+
+
+SQL> select * from emp where DOJ > '1-JAN-96' and DOJ < '31-DEC-01';
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        14 raj               27       4000 ind      23-JAN-97 m
+        19 mark              37       9000 aus      18-MAR-99 m
+        16 nick              29       7600 eng      27-JUN-99 u
+        27 priti             31       2600 ind      13-APR-97 u
+
+SQL> select * from emp where status = 'u';
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        16 nick              29       7600 eng      27-JUN-99 u
+        23 william           25       9700 nz       19-JAN-88 u
+        27 priti             31       2600 ind      13-APR-97 u
+
+SQL> select ID from emp where status='m' and LOC = 'ind';
+
+        ID
+----------
+        14
+        11
+
+SQL> select AGE,DOJ from emp where SAL > 7900;
+
+       AGE DOJ
+---------- ---------
+        37 18-MAR-99
+        25 19-JAN-88
+        42 05-DEC-95
+
+SQL> select * from emp where SAL!=5500 and SAL!=8900;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        14 raj               27       4000 ind      23-JAN-97 m
+        19 mark              37       9000 aus      18-MAR-99 m
+        16 nick              29       7600 eng      27-JUN-99 u
+        23 william           25       9700 nz       19-JAN-88 u
+        23 ahmed             30       1500 pak                m
+        23 steve             36       7700 aus      05-MAY-02 m
+        26 kartik            25       4800 ind
+        18 collin            22       2000 eng      16-NOV-95 m
+        27 priti             31       2600 ind      13-APR-97 u
+
+9 rows selected.
+
+SQL> select ID from emp where LOC = 'ind' or SAL > 6000;
+
+        ID
+----------
+        14
+        19
+        16
+        11
+        23
+        23
+        26
+        27
+        18
+
+9 rows selected.
+
+SQL> select AGE,LOC from emp where DOJ is NULL;
+
+       AGE LOC
+---------- --------
+        30 pak
+        25 ind
+
+SQL> select * from emp where name like '%m' and SAL>6000;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        23 william           25       9700 nz       19-JAN-88 u
+
+SQL> select * from emp where name like '%m%' and SAL>6000;
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        19 mark              37       9000 aus      18-MAR-99 m
+        23 william           25       9700 nz       19-JAN-88 u
+
+SQL> select * from emp where name not like '%a%';
+
+        ID NAME             AGE        SAL LOC      DOJ       S
+---------- --------- ---------- ---------- -------- --------- -
+        16 nick              29       7600 eng      27-JUN-99 u
+        23 steve             36       7700 aus      05-MAY-02 m
+        18 collin            22       2000 eng      16-NOV-95 m
+        27 priti             31       2600 ind      13-APR-97 u
+
+SQL> alter table emp modify(LOC varchar2(15));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(5)
+ NAME                                               VARCHAR2(9)
+ AGE                                                NUMBER(5)
+ SAL                                                NUMBER(7)
+ LOC                                                VARCHAR2(15)
+ DOJ                                                DATE
+ STATUS                                             VARCHAR2(1)
+
+SQL> alter table emp add(EMAIL varchar2(20));
+
+Table altered.
+
+SQL> desc emp;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ID                                                 NUMBER(5)
+ NAME                                               VARCHAR2(9)
+ AGE                                                NUMBER(5)
+ SAL                                                NUMBER(7)
+ LOC                                                VARCHAR2(15)
+ DOJ                                                DATE
+ STATUS                                             VARCHAR2(1)
+ EMAIL                                              VARCHAR2(20)
+
+SQL> select id from emp where SAL < 5200;
+
+        ID
+----------
+        14
+        23
+        26
+        18
+        27
+
+
+SQL> select * from emp where NAME like '%ll%';
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 william           25       9700 nz              19-JAN-88 u
+
+
+        18 collin            22       2000 eng             16-NOV-95 m
+
+
+
+SQL> select age from emp where NAME like 'r__';
+
+       AGE
+----------
+        27
+
+SQL> select * from emp where NAME not like 's%';
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+
+
+        19 mark              37       9000 aus             18-MAR-99 m
+
+
+        16 nick              29       7600 eng             27-JUN-99 u
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 william           25       9700 nz              19-JAN-88 u
+
+
+        23 ahmed             30       1500 pak                       m
+
+
+        26 kartik            25       4800 ind
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        18 collin            22       2000 eng             16-NOV-95 m
+
+
+        27 priti             31       2600 ind             13-APR-97 u
+
+
+        18 lance             42       8900 sa              05-DEC-95 m
+
+
+
+9 rows selected.
+
+SQL> update emp set LOC = 'ind' where AGE > 35;
+
+4 rows updated.
+
+SQL> select * from emp;
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+
+
+        19 mark              37       9000 ind             18-MAR-99 m
+
+
+        16 nick              29       7600 eng             27-JUN-99 u
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        11 sameer            39       5500 ind             11-NOV-86 m
+
+
+        23 william           25       9700 nz              19-JAN-88 u
+
+
+        23 ahmed             30       1500 pak                       m
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 steve             36       7700 ind             05-MAY-02 m
+
+
+        26 kartik            25       4800 ind
+
+
+        18 collin            22       2000 eng             16-NOV-95 m
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        27 priti             31       2600 ind             13-APR-97 u
+
+
+        18 lance             42       8900 ind             05-DEC-95 m
+
+
+
+11 rows selected.
+
+SQL> update emp set EMAIL = 'xyz@kiit.ac.in';
+
+11 rows updated.
+
+SQL> select * from emp;
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+xyz@kiit.ac.in
+
+        19 mark              37       9000 ind             18-MAR-99 m
+xyz@kiit.ac.in
+
+        16 nick              29       7600 eng             27-JUN-99 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        11 sameer            39       5500 ind             11-NOV-86 m
+xyz@kiit.ac.in
+
+        23 william           25       9700 nz              19-JAN-88 u
+xyz@kiit.ac.in
+
+        23 ahmed             30       1500 pak                       m
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 steve             36       7700 ind             05-MAY-02 m
+xyz@kiit.ac.in
+
+        26 kartik            25       4800 ind
+xyz@kiit.ac.in
+
+        18 collin            22       2000 eng             16-NOV-95 m
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        27 priti             31       2600 ind             13-APR-97 u
+xyz@kiit.ac.in
+
+        18 lance             42       8900 ind             05-DEC-95 m
+xyz@kiit.ac.in
+
+
+11 rows selected.
+
+SQL> delete from emp where name = 'collin';
+
+1 row deleted.
+
+SQL> select * from emp;
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+xyz@kiit.ac.in
+
+        19 mark              37       9000 ind             18-MAR-99 m
+xyz@kiit.ac.in
+
+        16 nick              29       7600 eng             27-JUN-99 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        11 sameer            39       5500 ind             11-NOV-86 m
+xyz@kiit.ac.in
+
+        23 william           25       9700 nz              19-JAN-88 u
+xyz@kiit.ac.in
+
+        23 ahmed             30       1500 pak                       m
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 steve             36       7700 ind             05-MAY-02 m
+xyz@kiit.ac.in
+
+        26 kartik            25       4800 ind
+xyz@kiit.ac.in
+
+        27 priti             31       2600 ind             13-APR-97 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        18 lance             42       8900 ind             05-DEC-95 m
+xyz@kiit.ac.in
+
+
+10 rows selected.
+
+SQL> rename emp to employee_regenerate;
+
+Table renamed.
+
+
+SQL> update employee_regenerate set SAL = 6000 where status ='u';
+
+3 rows updated.
+
+SQL> select * from employee_regenerate;
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+xyz@kiit.ac.in
+
+        19 mark              37       9000 ind             18-MAR-99 m
+xyz@kiit.ac.in
+
+        16 nick              29       6000 eng             27-JUN-99 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        11 sameer            39       5500 ind             11-NOV-86 m
+xyz@kiit.ac.in
+
+        23 william           25       6000 nz              19-JAN-88 u
+xyz@kiit.ac.in
+
+        23 ahmed             30       1500 pak                       m
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 steve             36       7700 ind             05-MAY-02 m
+xyz@kiit.ac.in
+
+        26 kartik            25       4800 ind
+xyz@kiit.ac.in
+
+        27 priti             31       6000 ind             13-APR-97 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        18 lance             42       8900 ind             05-DEC-95 m
+xyz@kiit.ac.in
+
+
+10 rows selected.
+
+
+SQL> insert into employee_regenerate (ID,NAME,SAL) values (34,'kartik',9000);
+
+1 row created.
+
+SQL> select * from employee_regenerate;
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        14 raj               27       4000 ind             23-JAN-97 m
+xyz@kiit.ac.in
+
+        19 mark              37       9000 ind             18-MAR-99 m
+xyz@kiit.ac.in
+
+        16 nick              29       6000 eng             27-JUN-99 u
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        11 sameer            39       5500 ind             11-NOV-86 m
+xyz@kiit.ac.in
+
+        23 william           25       6000 nz              19-JAN-88 u
+xyz@kiit.ac.in
+
+        23 ahmed             30       1500 pak                       m
+xyz@kiit.ac.in
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        23 steve             36       7700 ind             05-MAY-02 m
+xyz@kiit.ac.in
+
+        26 kartik            25       4800 ind
+xyz@kiit.ac.in
+
+        34 kartik                     9000
+
+
+
+        ID NAME             AGE        SAL LOC             DOJ       S
+---------- --------- ---------- ---------- --------------- --------- -
+EMAIL
+--------------------
+        27 priti             31       6000 ind             13-APR-97 u
+xyz@kiit.ac.in
+
+        18 lance             42       8900 ind             05-DEC-95 m
+xyz@kiit.ac.in
+
+
+11 rows selected.
+
+SQL> select SAL from employee_regenerate where NAME like 'c_i_in%';
+
+no rows selected
+
+SQL> commit;
+
+Commit complete.
+
+SQL>
