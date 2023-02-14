@@ -1,0 +1,147 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Tue Feb 14 22:35:14 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+
+SQL> create table student_21052252 (rollno number(5) constraint c10 primary key, sname varchar2(10) constraint c11 not null, address varchar2(10), age number(2) constraint c12 check(age>0 and age<25), regno number(5) constraint c13 unique, dob date constraint c14 check (dob > '01-jan-1989' and dob < '31-dec-2023'));
+
+Table created.
+
+SQL> desc student_21052252;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROLLNO                                    NOT NULL NUMBER(5)
+ SNAME                                     NOT NULL VARCHAR2(10)
+ ADDRESS                                            VARCHAR2(10)
+ AGE                                                NUMBER(2)
+ REGNO                                              NUMBER(5)
+ DOB                                                DATE
+
+SQL> insert into student_21052252 values(24,'avirup','sonagachi',21,75,'23-jan-1996');
+
+1 row created.
+
+SQL> insert into student_21052252 values(22,'rashel','bangla',24,80,'27-feb-2002');
+
+1 row created.
+
+SQL> insert into student_21052252 values(16,'surya','patna',16,28,'04-march-2000');
+
+1 row created.
+
+SQL> insert into student_21052252 values(14,'abhi','araria',14,26,'05-april-2000');
+
+1 row created.
+
+SQL> insert into student_21052252 values(17,'rusell','kkr',19,22,'07-october-2000');
+
+1 row created.
+
+SQL> select * from student_21052252;
+
+    ROLLNO SNAME      ADDRESS           AGE      REGNO DOB
+---------- ---------- ---------- ---------- ---------- ---------
+        24 avirup     sonagachi          21         75 23-JAN-96
+        22 rashel     bangla             24         80 27-FEB-02
+        16 surya      patna              16         28 04-MAR-00
+        14 abhi       araria             14         26 05-APR-00
+        17 rusell     kkr                19         22 07-OCT-00
+
+SQL> insert into student_21052252 values(24,'avirup','sonagachi',21,75,'23-JAN-96');
+insert into student_21052252 values(24,'avirup','sonagachi',21,75,'23-JAN-96')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HIMANSHU.C10) violated
+
+
+SQL> insert into student_21052252 values(69,null,'russia',27,78,'29-april-96');
+insert into student_21052252 values(69,null,'russia',27,78,'29-april-96')
+                                       *
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("HIMANSHU"."STUDENT_21052252"."SNAME")
+
+
+SQL> insert into student_21052252 values(27,'jonny','patna',23,786856,'15-SEPT-2002');
+insert into student_21052252 values(27,'jonny','patna',23,786856,'15-SEPT-2002')
+                                                          *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into student_21052252 values(24,'jonny','patna',23,786856,'15-SEPT-2002');
+insert into student_21052252 values(24,'jonny','patna',23,786856,'15-SEPT-2002')
+                                                          *
+ERROR at line 1:
+ORA-01438: value larger than specified precision allowed for this column
+
+
+SQL> insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-2002');
+insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-2002')
+                                                             *
+ERROR at line 1:
+ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+
+
+SQL> insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-96');
+insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-96')
+                                                             *
+ERROR at line 1:
+ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+
+
+SQL> insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-00');
+insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEPT-00')
+                                                             *
+ERROR at line 1:
+ORA-01841: (full) year must be between -4713 and +9999, and not be 0
+
+
+SQL> insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEP-00');
+insert into student_21052252 values(24,'jonny','patna',23,78,'15-SEP-00')
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HIMANSHU.C10) violated
+
+
+SQL> select * from student_21052252 order by ROLLNO asc;
+
+    ROLLNO SNAME      ADDRESS           AGE      REGNO DOB
+---------- ---------- ---------- ---------- ---------- ---------
+        14 abhi       araria             14         26 05-APR-00
+        16 surya      patna              16         28 04-MAR-00
+        17 rusell     kkr                19         22 07-OCT-00
+        22 rashel     bangla             24         80 27-FEB-02
+        24 avirup     sonagachi          21         75 23-JAN-96
+
+SQL> select * from student_21052252 order by SNAME asc;
+
+    ROLLNO SNAME      ADDRESS           AGE      REGNO DOB
+---------- ---------- ---------- ---------- ---------- ---------
+        14 abhi       araria             14         26 05-APR-00
+        24 avirup     sonagachi          21         75 23-JAN-96
+        22 rashel     bangla             24         80 27-FEB-02
+        17 rusell     kkr                19         22 07-OCT-00
+        16 surya      patna              16         28 04-MAR-00
+
+SQL>
+SQL> select * from student_21052252 order by SNAME desc;
+
+    ROLLNO SNAME      ADDRESS           AGE      REGNO DOB
+---------- ---------- ---------- ---------- ---------- ---------
+        16 surya      patna              16         28 04-MAR-00
+        17 rusell     kkr                19         22 07-OCT-00
+        22 rashel     bangla             24         80 27-FEB-02
+        24 avirup     sonagachi          21         75 23-JAN-96
+        14 abhi       araria             14         26 05-APR-00
+
+SQL> select * from student_21052252 where age>20;
+
+    ROLLNO SNAME      ADDRESS           AGE      REGNO DOB
+---------- ---------- ---------- ---------- ---------- ---------
+        24 avirup     sonagachi          21         75 23-JAN-96
+        22 rashel     bangla             24         80 27-FEB-02
+
+SQL> DROP TABLE student_21052252;
