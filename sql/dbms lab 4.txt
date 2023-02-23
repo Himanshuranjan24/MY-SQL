@@ -1,0 +1,204 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Feb 22 13:41:33 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+
+SQL> create table terms ( TermId number(11) constraint t15 primary key, termdesc varchar2(11), startdate date,enddate date);
+
+Table created.
+
+SQL> create table rooms ( RoomType char(2) constraint r1 primary key, roomdesc varchar2(9));
+
+Table created.
+
+SQL> create table locations (RoomId number(2) constraint l1 primary key, building varchar2(7) constraint l2 not null,roomno char(3) constraint l3 not null, capacity number(2) constraint l4 check(capacity > 0),roomtype char(2) references room(RoomType) ,constraint l5 unique (roomno));
+
+Table created.
+
+SQL> create table facultys (FacultyId number(3) constraint f1 primary key,name varchar2(15) constraint f2 not null,roomid number(2) references location(RoomId), phone char(3) constraint f3 unique, DeptId number(1));
+
+Table created.
+
+
+SQL> create table departments (DeptId number(1) constraint d1 primary key, deptname varchar2(20), facultyid number(3) references facultys(FacultyId));
+
+Table created.
+
+
+SQL> create table courses (CourseId varchar2(6) constraint c6 primary key, title varchar2(20) constraint c7 unique, credits number(1) check(credits>=0 and credits<=4),prereq varchar2(6) references courses(CourseId));
+
+Table created.
+
+SQL> create table crssections(CsId number(4) constraint cs1 primary key,CourseId varchar2(6) constraint cs5 not null,section char(2) constraint cs2 not null, termId char(4) constraint cs4 not null,facultyid number(3) references facultys(FacultyId),day varchar2(2),starttime varchar2(5),endtime varchar2(5));
+
+Table created.
+
+
+SQL> create table  students(studentId varchar2(5) primary key,last varchar2(15) not null,first varchar2(15) not null,street varchar2(25),city varchar2(15),state varchar2(2) default 'nj',zip varchar2(5),startTerm varchar2(4),birthDay Date,facultyID number(3),majorID number(3),deptId varchar2(1));
+
+Table created.
+
+SQL> create table Registrations(StudentId references Students(StudentId),CsId references crssections(CsID),midterm char constraint s23 check(Midterm in ('A','B','C','D','F','W')),Final char constraint s24 check(Final in ('A','B','C','D','F','I','W')),RegStatus Char constraint s25 check(RegStatus in ('X','R','W')));
+
+Table created.
+
+SQL> create table majors(majorid number(3) constraint m1 primary key,majordesc varchar2(25));
+
+Table created.
+
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Feb 22 14:06:59 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+
+
+
+SQL> insert into courses values('EN100','Basic English',0,NULL);
+
+1 row created.
+
+SQL> insert into courses values('LA123','English Literature',3,'EN100');
+
+1 row created.
+
+SQL> insert into courses values('CIS253','Database Systems',3,NULL);
+
+1 row created.
+
+SQL> insert into courses values('CIS265','systems Analysis',3,NULL);
+
+1 row created.
+
+SQL> insert into courses values('MA150','College Algebra',3,NULL);
+
+1 row created.
+
+SQL> insert into courses values('AC101','Accounting',3,NULL);
+
+1 row created.
+
+SQL> select * from courses;
+
+COURSE TITLE                   CREDITS PREREQ
+------ -------------------- ---------- ------
+EN100  Basic English                 0
+LA123  English Literature            3 EN100
+CIS253 Database Systems              3
+CIS265 systems Analysis              3
+MA150  College Algebra               3
+AC101  Accounting                    3
+
+6 rows selected.
+
+SQL> insert into rooms values('L','Lab');
+
+1 row created.
+
+SQL> insert into rooms values('C','Classroom');
+
+1 row created.
+
+SQL> insert into rooms values('O','Office');
+
+1 row created.
+
+SQL> select * from rooms;
+
+RO ROOMDESC
+-- ---------
+L  Lab
+C  Classroom
+O  Office
+
+SQL> insert into terms values('SP02','Spring 2002','28-APR-02','16-AUG-02');
+insert into terms values('SP02','Spring 2002','28-APR-02','16-AUG-02')
+                         *
+ERROR at line 1:
+ORA-01722: invalid number
+
+
+SQL> insert into terms values('SP02','Spring 2002',28-APR-02,16-AUG-02);
+insert into terms values('SP02','Spring 2002',28-APR-02,16-AUG-02)
+                                                           *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+
+
+
+SQL> insert into terms values('02','Spring 2002','28-APR-02','16-AUG-02');
+
+1 row created.
+
+
+
+SQL> insert into terms values('03','Fall 2002','8-SEP-02','20-DEC-02');
+
+1 row created.
+
+SQL> insert into terms values('04','Winter 2003','05-JAN-03','18-APR-03');
+
+1 row created.
+
+SQL> insert into terms values('05','Spring 2003','27-APR-03','18-AUG-03');
+
+1 row created.
+
+SQL> insert into terms values('06','Fall 2003','07-SEP-03','19-DEC-03');
+
+1 row created.
+
+SQL> select * from terms;
+
+    TERMID TERMDESC    STARTDATE ENDDATE
+---------- ----------- --------- ---------
+         2 Spring 2002 28-APR-02 16-AUG-02
+         3 Fall 2002   08-SEP-02 20-DEC-02
+         4 Winter 2003 05-JAN-03 18-APR-03
+         5 Spring 2003 27-APR-03 18-AUG-03
+         6 Fall 2003   07-SEP-03 19-DEC-03
+
+SQL> insert into majors values(100,'AAS-Accounting');
+
+1 row created.
+
+SQL> insert into majors values(200,'AAS-Computer Science');
+
+1 row created.
+
+SQL> insert into majors values(300,'AAS-Telecommunications');
+
+1 row created.
+
+SQL> insert into majors values(400,'AAS-Accounting');
+
+1 row created.
+
+SQL> insert into majors values(500,'Computer Science');
+
+1 row created.
+
+SQL> insert into majors values(600,'Bs-Telecommunications');
+
+1 row created.
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-Computer Science
+       300 AAS-Telecommunications
+       400 AAS-Accounting
+       500 Computer Science
+       600 Bs-Telecommunications
+
+6 rows selected.
+
