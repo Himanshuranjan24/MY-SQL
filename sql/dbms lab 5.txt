@@ -1,0 +1,675 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Feb 22 15:59:57 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn Himanshu/Himanshu;
+Connected.
+SQL> desc majors;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MAJORID                                   NOT NULL NUMBER(3)
+ MAJORDESC                                          VARCHAR2(25)
+
+SQL> select * from majors;
+
+no rows selected
+
+SQL> insert into courses values('EN100','Basic English',0,NULL);
+
+1 row created.
+
+SQL> insert into courses values('LA123',' English Literature',3,EN100);
+insert into courses values('LA123',' English Literature',3,EN100)
+                                                           *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into courses values('LA123',' English Literature',3,'EN100');
+
+1 row created.
+
+SQL> insert into courses values('CIS253',' English Literature',3,NULL);
+insert into courses values('CIS253',' English Literature',3,NULL)
+*
+ERROR at line 1:
+ORA-00001: unique constraint (HIMANSHU.C7) violated
+
+
+SQL> insert into courses values('CIS253','Datbase System',3,NULL);
+
+1 row created.
+
+SQL> insert into courses values('CIS265','System Analysis',3,'CIS253');
+
+1 row created.
+
+SQL> insert into courses values('MA150','College Algebra',3,null);
+
+1 row created.
+
+SQL> insert into courses values('AC101','Accounting',3,null);
+
+1 row created.
+
+SQL> select * from courses;
+
+COURSE TITLE                   CREDITS PREREQ
+------ -------------------- ---------- ------
+EN100  Basic English                 0
+LA123   English Literature           3 EN100
+CIS253 Datbase System                3
+CIS265 System Analysis               3 CIS253
+MA150  College Algebra               3
+AC101  Accounting                    3
+
+6 rows selected.
+
+SQL> insert into rooms values('L','Lab');
+
+1 row created.
+
+SQL> insert into rooms values('C','Classroom');
+
+1 row created.
+
+SQL> insert into rooms values('O','Office');
+
+1 row created.
+
+SQL> select * from rooms;
+
+RO ROOMDESC
+-- ---------
+L  Lab
+C  Classroom
+O  Office
+
+SQL> commit;
+
+Commit complete.
+
+SQL> insert into terms values(02,'spring 2002','28-apr-02','16-aug-02');
+
+1 row created.
+
+SQL> insert into terms values(03,'fall 2002','8-sep-02','18-apr-03');
+
+1 row created.
+
+SQL> insert into terms values(04,'winter 2003','5-jan-03','18-apr-03');
+
+1 row created.
+
+SQL> insert into terms values(05,'spring 2003','27-apr-03','15-aug-03');
+
+1 row created.
+
+SQL> insert into terms values(06,'fall 2003','7-sep-03','19-dec-03');
+
+1 row created.
+
+SQL> select * from terms;
+
+    TERMID TERMDESC    STARTDATE ENDDATE
+---------- ----------- --------- ---------
+         2 spring 2002 28-APR-02 16-AUG-02
+         3 fall 2002   08-SEP-02 18-APR-03
+         4 winter 2003 05-JAN-03 18-APR-03
+         5 spring 2003 27-APR-03 15-AUG-03
+         6 fall 2003   07-SEP-03 19-DEC-03
+
+SQL> insert into majors values(100,'AAS-Accounting');
+
+1 row created.
+
+SQL> insert into majors values(200,'AAS-computer science');
+
+1 row created.
+
+SQL> insert into majors values(300,'AAS-telecommunication');
+
+1 row created.
+
+SQL> insert into majors values(400,'AAS-accounting');
+
+1 row created.
+
+SQL> insert into majors values(500,'AAS-computerscience');
+
+1 row created.
+
+SQL> insert into majors values(600,'AAS-telecommunication');
+
+1 row created.
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-computer science
+       300 AAS-telecommunication
+       400 AAS-accounting
+       500 AAS-computerscience
+       600 AAS-telecommunication
+
+6 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> insert into departments values(1,'computer science',111);
+insert into departments values(1,'computer science',111)
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007137) violated - parent key
+not found
+
+
+SQL> alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID);
+alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID)
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID);
+alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID)
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> select * from departmens;
+select * from departmens
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> desc departments;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTID                                    NOT NULL NUMBER(1)
+ DEPTNAME                                           VARCHAR2(20)
+ FACULTYID                                          NUMBER(3)
+
+SQL> alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID);
+alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID)
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> desc facultys;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FACULTYID                                 NOT NULL NUMBER(3)
+ NAME                                      NOT NULL VARCHAR2(15)
+ ROOMID                                             NUMBER(2)
+ PHONE                                              CHAR(3)
+ DEPTID                                             NUMBER(1)
+
+SQL> Alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID);
+Alter table facultys  2  add constraint f4  3  foreign key (DEPTID) references departments(DEPTID)
+                      *
+ERROR at line 1:
+ORA-01735: invalid ALTER TABLE option
+
+
+SQL> insert  into locations values(11,'gandhi',101,2,'o');
+insert  into locations values(11,'gandhi',101,2,'o')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007131) violated - parent key
+not found
+
+
+SQL> insert into facultys values(111,'jones',11,525,1);
+
+1 row created.
+
+SQL> insert into facultys values(222,'williams',20,533,2);
+
+1 row created.
+
+SQL> insert into facultys values(123,'mobley',11,529,1);
+
+1 row created.
+
+SQL> insert into facultys values(235,'vajpayee',12,577,2);
+
+1 row created.
+
+SQL> insert into facultys values(345,'sen',12,579,3);
+
+1 row created.
+
+SQL> insert into facultys values(444,'riveria',21,544,4);
+
+1 row created.
+
+SQL> insert into facultys values(555,'chang',17,587,5);
+
+1 row created.
+
+SQL> insert into facultys values(333,'collins',17,599,3);
+
+1 row created.
+
+SQL> select * from facultys;
+
+ FACULTYID NAME                ROOMID PHO     DEPTID
+---------- --------------- ---------- --- ----------
+       111 jones                   11 525          1
+       222 williams                20 533          2
+       123 mobley                  11 529          1
+       235 vajpayee                12 577          2
+       345 sen                     12 579          3
+       444 riveria                 21 544          4
+       555 chang                   17 587          5
+       333 collins                 17 599          3
+
+8 rows selected.
+
+SQL> insert into crssection(1101,'CIS265',01,'WN03',111,'MW',09:00,10:30,13,30);
+SP2-0552: Bind variable "30" not declared.
+SQL> insert into crssection(1101,'CIS265',01,'WN03',111,'MW','09:00','10:30',13,30);
+insert into crssection(1101,'CIS265',01,'WN03',111,'MW','09:00','10:30',13,30)
+                       *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> insert into crssections values(1101,'CIS265',01,'WN03',111,'MW','09:00','10:30',13,30);
+insert into crssections values(1101,'CIS265',01,'WN03',111,'MW','09:00','10:30',13,30)
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into registrations values(00100,1103,'c','f','r');
+insert into registrations values(00100,1103,'c','f','r')
+*
+ERROR at line 1:
+ORA-02290: check constraint (HIMANSHU.S25) violated
+
+
+SQL> alter table locations add constraint u55 unique(roomno);
+alter table locations add constraint u55 unique(roomno)
+                                         *
+ERROR at line 1:
+ORA-02261: such unique or primary key already exists in the table
+
+
+SQL> alter table locations add constraint u55 unique(ROOMNO);
+alter table locations add constraint u55 unique(ROOMNO)
+                                         *
+ERROR at line 1:
+ORA-02261: such unique or primary key already exists in the table
+
+
+SQL> alter table facultys modify(DEPTID number(1) references departments(DEPTID));
+alter table facultys modify(DEPTID number(1) references departments(DEPTID))
+*
+ERROR at line 1:
+ORA-02298: cannot validate (HIMANSHU.SYS_C007156) - parent keys not found
+
+
+SQL> insert into registrations values(00100,1103,'c','f','r');
+insert into registrations values(00100,1103,'c','f','r')
+*
+ERROR at line 1:
+ORA-02290: check constraint (HIMANSHU.S25) violated
+
+
+SQL> select * from terms;
+
+    TERMID TERMDESC    STARTDATE ENDDATE
+---------- ----------- --------- ---------
+         2 spring 2002 28-APR-02 16-AUG-02
+         3 fall 2002   08-SEP-02 18-APR-03
+         4 winter 2003 05-JAN-03 18-APR-03
+         5 spring 2003 27-APR-03 15-AUG-03
+         6 fall 2003   07-SEP-03 19-DEC-03
+
+SQL> select * from couses;
+select * from couses
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from courses;
+
+COURSE TITLE                   CREDITS PREREQ
+------ -------------------- ---------- ------
+EN100  Basic English                 0
+LA123   English Literature           3 EN100
+CIS253 Datbase System                3
+CIS265 System Analysis               3 CIS253
+MA150  College Algebra               3
+AC101  Accounting                    3
+
+6 rows selected.
+
+SQL> select * from rooms;
+
+RO ROOMDESC
+-- ---------
+L  Lab
+C  Classroom
+O  Office
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-computer science
+       300 AAS-telecommunication
+       400 AAS-accounting
+       500 AAS-computerscience
+       600 AAS-telecommunication
+
+6 rows selected.
+
+SQL> desc departments;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ DEPTID                                    NOT NULL NUMBER(1)
+ DEPTNAME                                           VARCHAR2(20)
+ FACULTYID                                          NUMBER(3)
+
+SQL> insert into departments values (1,'computer science',111);
+
+1 row created.
+
+SQL> insert into departments values (2,'telecommunications',222);
+
+1 row created.
+
+SQL> insert into departments values (3,'accounting',333);
+
+1 row created.
+
+SQL> insert into departments values (4,'math and science',444);
+
+1 row created.
+
+SQL> insert into departments values (5,'liberal arts',555);
+
+1 row created.
+
+SQL> select * from departments;
+
+    DEPTID DEPTNAME              FACULTYID
+---------- -------------------- ----------
+         1 computer science            111
+         2 telecommunications          222
+         3 accounting                  333
+         4 math and science            444
+         5 liberal arts                555
+
+SQL> insert into locations(11,'gandhi',101,2,'o');
+insert into locations(11,'gandhi',101,2,'o')
+                      *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> desc locations;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ ROOMID                                    NOT NULL NUMBER(2)
+ BUILDING                                  NOT NULL VARCHAR2(7)
+ ROOMNO                                    NOT NULL CHAR(3)
+ CAPACITY                                           NUMBER(2)
+ ROOMTYPE                                           CHAR(2)
+
+SQL> insert into locations(11,'gandhi','lo1',2,'o');
+insert into locations(11,'gandhi','lo1',2,'o')
+                      *
+ERROR at line 1:
+ORA-00928: missing SELECT keyword
+
+
+SQL> insert into locations values(11,'gandhi','lo1',2,'o');
+insert into locations values(11,'gandhi','lo1',2,'o')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007131) violated - parent key
+not found
+
+
+SQL> insert into locations values(11,'gandhi',101,2,'o');
+insert into locations values(11,'gandhi',101,2,'o')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007131) violated - parent key
+not found
+
+
+SQL> insert into locations values(11,'gandhi','lol',2,'o');
+insert into locations values(11,'gandhi','lol',2,'o')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007131) violated - parent key
+not found
+
+
+SQL> select * from departments;
+
+    DEPTID DEPTNAME              FACULTYID
+---------- -------------------- ----------
+         1 computer science            111
+         2 telecommunications          222
+         3 accounting                  333
+         4 math and science            444
+         5 liberal arts                555
+
+SQL>
+SQL> insert into locations values(11,'gandhi','abc',2,'O');
+insert into locations values(11,'gandhi','abc',2,'O')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (HIMANSHU.SYS_C007131) violated - parent key
+not found
+
+
+SQL> select * from locations;
+
+no rows selected
+
+SQL> select * from facultys;
+
+ FACULTYID NAME                ROOMID PHO     DEPTID
+---------- --------------- ---------- --- ----------
+       111 jones                   11 525          1
+       222 williams                20 533          2
+       123 mobley                  11 529          1
+       235 vajpayee                12 577          2
+       345 sen                     12 579          3
+       444 riveria                 21 544          4
+       555 chang                   17 587          5
+       333 collins                 17 599          3
+
+8 rows selected.
+
+SQL> desc student;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENTID                                          CHAR(5)
+ LAST                                               VARCHAR2(15)
+ FIRST                                              VARCHAR2(15)
+ STREET                                             VARCHAR2(25)
+ CITY                                               VARCHAR2(15)
+ STATE                                              VARCHAR2(8)
+ ZIP                                                VARCHAR2(5)
+ STARTTERM                                          VARCHAR2(4)
+ BIRTHDAY                                           DATE
+ FACULTYID                                          NUMBER(3)
+ MAJORID                                            NUMBER(3)
+ PHONE                                              CHAR(10)
+
+SQL> insert into student values(00100,'diaz','jose','1 ford avenue #7','hill','nj',08863,'wn03','02/12/1983',123,100,9735531111);
+insert into student values(00100,'diaz','jose','1 ford avenue #7','hill','nj',08863,'wn03','02/12/1983',123,100,9735531111)
+                                                                                           *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> insert into students values(00100,'diaz','jose','1 ford avenue #7','hill','nj',08863,'wn03','02/12/1983',123,100,9735531111);
+insert into students values(00100,'diaz','jose','1 ford avenue #7','hill','nj',08863,'wn03','02/12/1983',123,100,9735531111)
+                                                                                            *
+ERROR at line 1:
+ORA-01843: not a valid month
+
+
+SQL> desc students;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ STUDENTID                                 NOT NULL VARCHAR2(5)
+ LAST                                      NOT NULL VARCHAR2(15)
+ FIRST                                     NOT NULL VARCHAR2(15)
+ STREET                                             VARCHAR2(25)
+ CITY                                               VARCHAR2(15)
+ STATE                                              VARCHAR2(2)
+ ZIP                                                VARCHAR2(5)
+ STARTTERM                                          VARCHAR2(4)
+ BIRTHDAY                                           DATE
+ FACULTYID                                          NUMBER(3)
+ MAJORID                                            NUMBER(3)
+ DEPTID                                             VARCHAR2(1)
+
+SQL> select * from facultys;
+
+ FACULTYID NAME                ROOMID PHO     DEPTID
+---------- --------------- ---------- --- ----------
+       111 jones                   11 525          1
+       222 williams                20 533          2
+       123 mobley                  11 529          1
+       235 vajpayee                12 577          2
+       345 sen                     12 579          3
+       444 riveria                 21 544          4
+       555 chang                   17 587          5
+       333 collins                 17 599          3
+
+8 rows selected.
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-computer science
+       300 AAS-telecommunication
+       400 AAS-accounting
+       500 AAS-computerscience
+       600 AAS-telecommunication
+
+6 rows selected.
+
+SQL> select * from locations;
+
+no rows selected
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-computer science
+       300 AAS-telecommunication
+       400 AAS-accounting
+       500 AAS-computerscience
+       600 AAS-telecommunication
+
+6 rows selected.
+
+SQL> select * from terms;
+
+    TERMID TERMDESC    STARTDATE ENDDATE
+---------- ----------- --------- ---------
+         2 spring 2002 28-APR-02 16-AUG-02
+         3 fall 2002   08-SEP-02 18-APR-03
+         4 winter 2003 05-JAN-03 18-APR-03
+         5 spring 2003 27-APR-03 15-AUG-03
+         6 fall 2003   07-SEP-03 19-DEC-03
+
+SQL> select * from rooms;
+
+RO ROOMDESC
+-- ---------
+L  Lab
+C  Classroom
+O  Office
+
+SQL> select * from courses;
+
+COURSE TITLE                   CREDITS PREREQ
+------ -------------------- ---------- ------
+EN100  Basic English                 0
+LA123   English Literature           3 EN100
+CIS253 Datbase System                3
+CIS265 System Analysis               3 CIS253
+MA150  College Algebra               3
+AC101  Accounting                    3
+
+6 rows selected.
+
+SQL> select * from student;
+
+no rows selected
+
+SQL> select * from registration;
+select * from registration
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist
+
+
+SQL> select * from STUDENT;
+
+no rows selected
+
+SQL> select * from majors;
+
+   MAJORID MAJORDESC
+---------- -------------------------
+       100 AAS-Accounting
+       200 AAS-computer science
+       300 AAS-telecommunication
+       400 AAS-accounting
+       500 AAS-computerscience
+       600 AAS-telecommunication
+
+6 rows selected.
+
+SQL> select constraint_name,constraint_type from user_constraints where majors='MAJORS';
+select constraint_name,constraint_type from user_constraints where majors='MAJORS'
+                                                                   *
+ERROR at line 1:
+ORA-00904: "MAJORS": invalid identifier
+
+
+SQL> desc majors;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ MAJORID                                   NOT NULL NUMBER(3)
+ MAJORDESC                                          VARCHAR2(25)
+
+SQL> select constraint_name,constraint_type from user_constraints where table_name='MAJORS';
+
+CONSTRAINT_NAME                C
+------------------------------ -
+M1                             P
+
+SQL> commit;
+
+Commit complete.
+
+SQL>
