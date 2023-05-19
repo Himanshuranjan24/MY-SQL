@@ -1,0 +1,166 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed May 3 12:41:19 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn sys/sys as sysdba;
+Connected.
+SQL> create table studentt (SID number(5),sname varchar(5),sgender char(5),sage integer,saddress varchar2(10));
+
+Table created.
+
+SQL> desc studentt;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(5)
+ SNAME                                              VARCHAR2(5)
+ SGENDER                                            CHAR(5)
+ SAGE                                               NUMBER(38)
+ SADDRESS                                           VARCHAR2(10)
+
+SQL> create table facultyy (fid number(5),fname char(5),fgender char(5), fage integer,saddress varchar(10));
+
+Table created.
+
+SQL> desc facultyy;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FID                                                NUMBER(5)
+ FNAME                                              CHAR(5)
+ FGENDER                                            CHAR(5)
+ FAGE                                               NUMBER(38)
+ SADDRESS                                           VARCHAR2(10)
+
+SQL> alter table facultyy modify fname char(6);
+
+Table altered.
+
+SQL> alter table facultyy modify fgender char(6);
+
+Table altered.
+
+SQL> alter table facultyy modify fage number(2);
+
+Table altered.
+
+SQL> desc facultyy;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ FID                                                NUMBER(5)
+ FNAME                                              CHAR(6)
+ FGENDER                                            CHAR(6)
+ FAGE                                               NUMBER(2)
+ SADDRESS                                           VARCHAR2(10)
+
+SQL>  insert all
+  2    into facultyy values(1001,'AVIRUP','MALE',22,'NEWDELHI')
+  3    into facultyy values(1002,'AKHIL','MALE',21,'KOLKATA')
+  4     into facultyy values(1003,'SONA','FEMALE',32,'HYDERABAD')
+  5    into facultyy values(1004,'TUTU','FEMALE',24,'CTC')
+  6    into facultyy values(1005,'RABI','MALE',36,'BBSR')
+  7    select * from dual;
+
+5 rows created.
+
+SQL> select * from facultyy;
+
+       FID FNAME  FGENDE       FAGE SADDRESS
+---------- ------ ------ ---------- ----------
+      1001 AVIRUP MALE           22 NEWDELHI
+      1002 AKHIL  MALE           21 KOLKATA
+      1003 SONA   FEMALE         32 HYDERABAD
+      1004 TUTU   FEMALE         24 CTC
+      1005 RABI   MALE           36 BBSR
+
+SQL> alter table studentt modify SGENDER char(6);
+
+Table altered.
+
+SQL>  insert all
+  2    into studentt values(1001,'ATUL','MALE',22,'NEWDELHI')
+  3    into studentt values(1002,'ABHI','MALE',21,'KOLKATA')
+  4     into studentt values(1003,'SAINA','FEMALE',32,'KOLKATA')
+  5     into studentt values(1004,'NITU','FEMALE',24,'VIZAG')
+  6    into studentt values(1005,'ASIS','MALE',36,'BBSR')
+  7    select * from dual;
+
+5 rows created.
+
+SQL> select * from values;
+select * from values
+              *
+ERROR at line 1:
+ORA-00903: invalid table name
+
+
+SQL> select * from studentt;
+
+       SID SNAME SGENDE       SAGE SADDRESS
+---------- ----- ------ ---------- ----------
+      1001 ATUL  MALE           22 NEWDELHI
+      1002 ABHI  MALE           21 KOLKATA
+      1003 SAINA FEMALE         32 KOLKATA
+      1004 NITU  FEMALE         24 VIZAG
+      1005 ASIS  MALE           36 BBSR
+
+SQL>  create table employeee(emp_id number(10),fullname varchar(20),email_id varchar2(20),dateofjoining date,city varchar2(10));
+
+Table created.
+
+SQL> insert all
+  2     into employeee values (121,'JohnSnow','js@gmail.com','31-JAN-19','Toronto')
+  3     into employeee values (321,'Walter White','wh@yahoo.com','30-JAN-20','California')
+  4     into employeee values (421,'Kuldeep Rana','kr@yahoo.com','27-NOV-21','New Delhi')
+  5    into employeee values (621,'Randeep singh','rs@gmail.com',null,null)
+  6    select * from dual;
+
+4 rows created.
+
+SQL> select * from employeee;
+
+    EMP_ID FULLNAME             EMAIL_ID             DATEOFJOI CITY
+---------- -------------------- -------------------- --------- ----------
+       121 JohnSnow             js@gmail.com         31-JAN-19 Toronto
+       321 Walter White         wh@yahoo.com         30-JAN-20 California
+       421 Kuldeep Rana         kr@yahoo.com         27-NOV-21 New Delhi
+       621 Randeep singh        rs@gmail.com
+
+SQL> commit;
+
+Commit complete.
+
+SQL> create  table employeesalary (empi_id number(10),project varchar2(5),salary number(7,2),emptype varchar2(10));
+
+Table created.
+
+SQL> alter table employeesalary modify emptype varchar2(15);
+
+Table altered.
+
+SQL> commit;
+
+Commit complete.
+
+SQL>  insert all
+  2    into employeesalary values(121,'p1',25000,'worker')
+  3    into employeesalary values(321,'p2',50000,'manager')
+  4     into employeesalary values(421,'p1',30000,'foreman')
+  5     into employeesalary values(621,'p3',24000,'electrician')
+  6     select * from dual;
+
+4 rows created.
+
+SQL> select * from employeesalary;
+
+   EMPI_ID PROJE     SALARY EMPTYPE
+---------- ----- ---------- ---------------
+       121 p1         25000 worker
+       321 p2         50000 manager
+       421 p1         30000 foreman
+       621 p3         24000 electrician
+
+SQL> commit;
+
+Commit complete.
+
+SQL>
