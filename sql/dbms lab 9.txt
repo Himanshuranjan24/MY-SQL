@@ -1,0 +1,294 @@
+
+SQL*Plus: Release 11.2.0.2.0 Production on Wed Apr 5 16:38:07 2023
+
+Copyright (c) 1982, 2014, Oracle.  All rights reserved.
+
+SQL> conn sys/sys as sysdba;
+Connected.
+SQL> create table supplier(sid number(10),sname varchar 2(20),location varchar2(20));
+create table supplier(sid number(10),sname varchar 2(20),location varchar2(20))
+                                                   *
+ERROR at line 1:
+ORA-00906: missing left parenthesis
+
+
+SQL> create table supplier(sid number(10), sname varchar (20), location varchar (20));
+
+Table created.
+
+SQL> insert into supplier values(100,'ss','ab');
+
+1 row created.
+
+SQL> insert into supplier values(101,'sb','ac');
+
+1 row created.
+
+SQL> insert into supplier values(102,'sc','ad');
+
+1 row created.
+
+SQL> insert into supplier values(103,'sd','ae');
+
+1 row created.
+
+SQL> insert into supplier values(104,'se','af');
+
+1 row created.
+
+SQL> select * from supplier;
+
+       SID SNAME                LOCATION
+---------- -------------------- --------------------
+       100 ss                   ab
+       101 sb                   ac
+       102 sc                   ad
+       103 sd                   ae
+       104 se                   af
+
+SQL> create table part (pid number(10),pname varchar(20),color varchar(20));
+
+Table created.
+
+SQL> insert into part values(200,'pa','red');
+
+1 row created.
+
+SQL> insert into part values(201,'pb','blue');
+
+1 row created.
+
+SQL> insert into part values(202,'pc','green');
+
+1 row created.
+
+SQL> insert into part values(203,'pd','yellow');
+
+1 row created.
+
+SQL> insert into part values(204,'pd','orange');
+
+1 row created.
+
+SQL> select * from part;
+
+       PID PNAME                COLOR
+---------- -------------------- --------------------
+       200 pa                   red
+       201 pb                   blue
+       202 pc                   green
+       203 pd                   yellow
+       204 pd                   orange
+
+SQL> create table cata (sid number(10),pid number(10),cost number (10));
+
+Table created.
+
+SQL> insert into cata values(100,200,10);
+
+1 row created.
+
+SQL> insert into cata values(101,201,20);
+
+1 row created.
+
+SQL> insert into cata values(102,202,30);
+
+1 row created.
+
+SQL> insert into cata values(103,203,40);
+
+1 row created.
+
+SQL> insert into cata values(104,204,50);
+
+1 row created.
+
+SQL> insert into cata values(105,205,60);
+
+1 row created.
+
+SQL> insert into cata values(106,206,70);
+
+1 row created.
+
+SQL> insert into cata values(107,207,80);
+
+1 row created.
+
+SQL> insert into cata values(108,208,90);
+
+1 row created.
+
+SQL> insert into cata values(109,209,100);
+
+1 row created.
+
+SQL> insert into cata values(110,210,110);
+
+1 row created.
+
+SQL> insert into cata values(111,211,120);
+
+1 row created.
+
+SQL> insert into cata values(112,213,130);
+
+1 row created.
+
+SQL> insert into cata values(113,213,140);
+
+1 row created.
+
+SQL> insert into cata values(114,214,150);
+
+1 row created.
+
+SQL> selcet * from cata;
+SP2-0734: unknown command beginning "selcet * f..." - rest of line ignored.
+SQL> select * from cata;
+
+       SID        PID       COST
+---------- ---------- ----------
+       100        200         10
+       101        201         20
+       102        202         30
+       103        203         40
+       104        204         50
+       105        205         60
+       106        206         70
+       107        207         80
+       108        208         90
+       109        209        100
+       110        210        110
+
+       SID        PID       COST
+---------- ---------- ----------
+       111        211        120
+       112        213        130
+       113        213        140
+       114        214        150
+
+15 rows selected.
+
+SQL> commit;
+
+Commit complete.
+
+SQL> SELECT suppliers.SID
+  2  FROM suppliers
+  3  JOIN parts ON suppliers.PID = parts.PID
+  4  WHERE parts.color = 'red';
+JOIN parts ON suppliers.PID = parts.PID
+     *
+ERROR at line 3:
+ORA-00942: table or view does not exist
+
+
+SQL> SELECT supplier.SID
+  2  FROM supplier
+  3  JOIN parts ON supplier.PID = part.PID
+  4  WHERE part.color = 'red';
+JOIN parts ON supplier.PID = part.PID
+     *
+ERROR at line 3:
+ORA-00942: table or view does not exist
+
+
+SQL>  create view v1 as select cata.SID from cata,part where part.color='red';
+
+View created.
+
+SQL> select * from v1;
+
+       SID
+----------
+       100
+       101
+       102
+       103
+       104
+       105
+       106
+       107
+       108
+       109
+       110
+
+       SID
+----------
+       111
+       112
+       113
+       114
+
+15 rows selected.
+
+SQL> create view v2 as select Cata.SID from Cata,part where cata.PID=part.PID and part.color='red';
+
+View created.
+
+SQL> select * from v2;
+
+       SID
+----------
+       100
+
+SQL> create view v3 as select cata.SID,supplier.LOCATION
+  2  from cata,supplier,part where cata.SID=supplier.SID and cata.PID=part.PID and part.color='green';
+
+View created.
+
+SQL> select * from v3;
+
+       SID LOCATION
+---------- --------------------
+       102 ad
+
+SQL> create view v4 as select Cata.SID from Cata,part where cata.PID=part.PID and part.color='red' and part.color='blue';
+
+View created.
+
+SQL> select * from v4;
+
+no rows selected
+
+SQL> create view v5 as select Cata.SID from Cata,part where cata.PID=part.PID and part.color='red' or part.color='blue';
+
+View created.
+
+SQL> select * from v5;
+
+       SID
+----------
+       100
+       100
+       101
+       102
+       103
+       104
+       105
+       106
+       107
+       108
+       109
+
+       SID
+----------
+       110
+       111
+       112
+       113
+       114
+
+16 rows selected.
+
+SQL> create view v6 as select Cata.SID from Cata,part where cata.PID=part.PID and part.color='yellow' and part.color='green';
+
+View created.
+
+SQL> select * from v6;
+
+no rows selected
+
+SQL>
